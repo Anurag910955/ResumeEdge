@@ -67,9 +67,7 @@ router.put("/update/:resumeId", async (req, res) => {
 
     const updatedResume = await Resume.findByIdAndUpdate(
       resumeId,
-      {
-        ...req.body, // safely includes all updated fields
-      },
+      { ...req.body },
       { new: true }
     );
 
@@ -101,10 +99,6 @@ router.get("/:userId", async (req, res) => {
 
     const resumes = await Resume.find({ userId: new mongoose.Types.ObjectId(userId) });
 
-    if (!resumes || resumes.length === 0) {
-      return res.status(404).json({ message: "No resumes found for this user" });
-    }
-
     return res.status(200).json(resumes);
   } catch (err) {
     console.error("Error fetching resumes:", err);
@@ -114,16 +108,21 @@ router.get("/:userId", async (req, res) => {
     });
   }
 });
-// In routes/resume.js
+
+// Delete a resume
 router.delete("/delete/:resumeId", async (req, res) => {
   try {
     const { resumeId } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(resumeId)) {
+      return res.status(400).json({ message: "Invalid resumeId format" });
+    }
+
     await Resume.findByIdAndDelete(resumeId);
     res.status(200).json({ message: "Resume deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: "Failed to delete resume", error: err.message });
   }
 });
-
 
 module.exports = router;
