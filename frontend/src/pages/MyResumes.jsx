@@ -17,7 +17,7 @@ const MyResumes = () => {
 
   const fetchResumes = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/resume/${userId}`);
+      const res = await axios.get(`https://resumeedge.onrender.com/api/resume/${userId}`);
       setResumes(res.data.reverse());
     } catch (err) {
       toast.error("❌ Failed to load resumes.");
@@ -44,7 +44,7 @@ const MyResumes = () => {
   const confirmDelete = async () => {
     if (!resumeToDelete) return;
     try {
-      await axios.delete(`http://localhost:5000/api/resume/delete/${resumeToDelete}`);
+      await axios.delete(`https://resumeedge.onrender.com/api/resume/delete/${resumeToDelete}`);
       toast.success("🗑️ Resume deleted successfully");
       setResumeToDelete(null);
       fetchResumes();

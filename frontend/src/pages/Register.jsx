@@ -20,7 +20,7 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/send-otp", {
+      const res = await axios.post("https://resumeedge.onrender.com/api/auth/send-otp", {
         email: form.email,
       });
 
@@ -42,7 +42,7 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", {
+      const res = await axios.post("https://resumeedge.onrender.com/api/auth/register", {
         ...form,
         otp,
       });

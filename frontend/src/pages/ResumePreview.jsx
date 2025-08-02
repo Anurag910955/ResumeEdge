@@ -33,10 +33,10 @@ const ResumePreview = () => {
 
     try {
       if (formData._id) {
-        await axios.put(`http://localhost:5000/api/resume/update/${formData._id}`, resumeData);
+        await axios.put(`https://resumeedge.onrender.com/api/resume/update/${formData._id}`, resumeData);
         toast.success("Resume updated successfully!");
       } else {
-        const res = await axios.post("http://localhost:5000/api/resume/save", resumeData);
+        const res = await axios.post("https://resumeedge.onrender.com/api/resume/save", resumeData);
         resumeData._id = res.data.resume._id;
         toast.success("Resume saved successfully!");
       }

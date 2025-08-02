@@ -87,12 +87,12 @@ const ResumeForm = () => {
     try {
       if (formData._id) {
         await axios.put(
-          `http://localhost:5000/api/resume/update/${formData._id}`,
+          `https://resumeedge.onrender.com/api/resume/update/${formData._id}`,
           dataToSubmit
         );
         setStatusMessage("Resume updated successfully!");
       } else {
-        const res = await axios.post("http://localhost:5000/api/resume/save", dataToSubmit);
+        const res = await axios.post("https://resumeedge.onrender.com/api/resume/save", dataToSubmit);
         dataToSubmit._id = res.data.resume._id;
         setStatusMessage("Resume submitted successfully!");
       }

@@ -18,7 +18,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/forgot-password", {
+      const res = await axios.post("https://resumeedge.onrender.com/api/auth/forgot-password", {
         email: form.email,
       });
       if (res.data.success) {
@@ -38,7 +38,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/reset-password", {
+      const res = await axios.post("https://resumeedge.onrender.com/api/auth/reset-password", {
         email: form.email,
         otp: form.otp,
         newPassword: form.newPassword,
