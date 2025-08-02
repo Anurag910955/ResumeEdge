@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,22 +13,27 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", {
         email,
         password,
       });
 
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
-      }
+      const { token, userId, name, message } = res.data;
 
-      alert(res.data.message);
-      if (res.data.message === "Login successful") {
-        navigate("/resume-form");
+      if (token && userId) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify({ userId, name }));
+        toast.success(message || "✅ Login successful!");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1500);
+      } else {
+        toast.error("⚠️ Unexpected login response");
       }
     } catch (error) {
-      alert("Invalid email or password");
+      toast.error("❌ Invalid email or password");
     } finally {
       setIsLoading(false);
     }
@@ -34,8 +41,8 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f3f4f6] via-white to-[#e0f2fe] flex items-center justify-center px-4 py-8">
+      <ToastContainer position="top-center" autoClose={1500} />
       <div className="w-full max-w-5xl flex bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
-        {/* Illustration Section */}
         <div className="hidden md:flex w-1/2 bg-gradient-to-br from-indigo-500 to-purple-600 items-center justify-center text-white p-10">
           <div className="text-center">
             <h2 className="text-4xl font-extrabold tracking-tight">ResumeEdge</h2>
@@ -48,7 +55,6 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Login Form */}
         <div className="w-full md:w-1/2 p-10 md:p-14 bg-white">
           <h2 className="text-3xl font-bold text-gray-800 text-center">Welcome Back</h2>
           <p className="text-center text-gray-500 mt-2 mb-8">Login to your ResumeEdge account</p>
@@ -89,11 +95,13 @@ const Login = () => {
 
           <p className="mt-6 text-center text-sm text-gray-600">
             Don’t have an account?{" "}
-            <a
-              href="/register"
-              className="text-indigo-600 hover:underline font-medium"
-            >
+            <a href="/register" className="text-indigo-600 hover:underline font-medium">
               Register here
+            </a>
+          </p>
+          <p className="mt-6 text-center text-sm text-gray-600">
+            <a href="/forgot-password" className="text-indigo-600 hover:underline font-medium">
+              Forgot Password?
             </a>
           </p>
         </div>
