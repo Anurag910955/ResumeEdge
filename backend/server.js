@@ -9,7 +9,7 @@ const resumeRoutes = require("./routes/resumeRoutes");
 const app = express();
 
 // Middleware
-app.use(cors({ origin: "https://resume-edge-ten.vercel.app", credentials: true }));
+app.use(cors({ origin: "https://resume-edge-ten-project.vercel.app/", credentials: true }));
 app.use(express.json());
 
 // Connect to MongoDB
